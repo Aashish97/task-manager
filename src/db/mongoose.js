@@ -23,6 +23,17 @@ const User = mongoose.model("User", {
           }
       }
   },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 6,
+    validate(value){
+        if (value.toLowerCase().includes('password')) {
+            throw new Error('You cannot use password as "password"');
+        }
+    }
+  },
   age: {
     type: Number,
     default: 0,
@@ -36,7 +47,8 @@ const User = mongoose.model("User", {
 
 const me = new User({
   name: 'Aashish',
-  email: ' ITSMEASIS98@GMAIL.COM'
+  email: ' ITSMEASIS98@GMAIL.COM',
+  password: 'Password123'
 });
 
 me.save()
