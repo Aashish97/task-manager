@@ -13,7 +13,7 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, { useUnifiedTopolo
     
     const db = client.db(databaseName);
 
-    // //inserts many documents into single collection of database
+    // Inserts many documents into single collection of database
 
     // db.collection('tasks').insertMany([
     //     {
@@ -28,41 +28,27 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, { useUnifiedTopolo
     //         description: 'Learn promises and asynchronous function',
     //         completed: false
     //     }
-    // ], (error, result) => {
-    //     if (error) {
-    //         return console.log("Unable to insert task");
-    //     }
-    //     console.log(result.ops);
-    // })
+    // ]).then((result) => console.log(result))
+    // .catch((error) => console.log(error));
 
-    // //reading a document of the database
+    // Reading a document of the database
 
-    // db.collection('tasks').findOne({ _id: new ObjectID('5e799590a8bd6c31fc851c82') }, (error, task) => {
-    //     if (error) {
-    //         return console.log("Unable to fetch user");
-    //     }
-    //     console.log(task);
-    // })
+    // db.collection('tasks').findOne({ _id: new ObjectID('5e799590a8bd6c31fc851c82') })
+    // .then((result) => console.log(result))
+    // .catch((error) => console.log(error));
 
-    // //reading the documents of the database
+    // Reading the documents of the database
 
-    // db.collection('tasks').find( { completed: false }).toArray((error, tasks) => {
-    //     if (error) {
-    //         return console.log("No users found of that age");
-    //     }
+    db.collection('tasks').find( { completed: true }).toArray()
+    .then((result) => console.log(result))
+    .catch((error) => console.log(error));
 
-    //     console.log(tasks);
-    // });
+    // Getting the count only of the matching documents
+    db.collection('tasks').find( { completed: true } ).count()
+    .then((result) => console.log(result))
+    .catch((error) => console.log(error));
 
-    // // getting the count only of the matching documents
-    // db.collection('tasks').find( { completed: false } ).count((error, count) => {
-    //     if (error) {
-    //         return console.log("No users found of that age");
-    //     }
-    //     console.log(count);
-    // });
-
-    // //updating single documents on the basis of id
+    // Updating single documents on the basis of id
     // db.collection('users').updateOne(
     //     {
     //         _id: new ObjectID('5e799394bc780a314cb4027c')
@@ -78,7 +64,7 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, { useUnifiedTopolo
     // ).then((result) => console.log(result))
     // .catch((error) => console.log(error));
 
-    // //upadating many documents of the databases
+    // Upadating many documents of the databases
     // db.collection('tasks').updateMany(
     //     {
     //         completed: false
@@ -91,11 +77,11 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, { useUnifiedTopolo
     // ).then((result) => console.log(result.modifiedCount))
     // .catch((error) => console.log(error));
 
-    //deleting a document from the collection of the database and use deleteMany for deleting many documents from the collection
-    db.collection('users').deleteOne(
-        {
-            name: 'Susan'
-        }
-    ).then((result) => console.log(result))
-    .catch((error) => console.log(error));
+    // Deleting a document from the collection of the database and use deleteMany for deleting many documents from the collection
+//     db.collection('users').deleteOne(
+//         {
+//             name: 'Susan'
+//         }
+//     ).then((result) => console.log(result))
+//     .catch((error) => console.log(error));
 })
