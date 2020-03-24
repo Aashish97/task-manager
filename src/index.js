@@ -18,6 +18,21 @@ app.post('/users', (req, res) => {
     .catch( e => res.status(400).send(e));
 });
 
+app.get('/users', (req, res) => {
+    User.find({})
+    .then(users => res.send(users))
+    .catch(() => res.status(500).send());
+});
+
+// :id provides the dynamic content that the users will provide as user_id
+app.get('/users/:id', (req, res) => {
+
+    const _id = req.params.id;
+    User.findById(_id)
+    .then( user => res.send(user))
+    .catch(() => res.status(404).send())
+})
+
 app.post('/tasks', (req, res) => {
     const task = new Task(req.body);
 
