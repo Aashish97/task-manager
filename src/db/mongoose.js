@@ -58,19 +58,20 @@ me.save()
 const Task = mongoose.model('Task', {
   description: {
     type: String,
-    require: true
+    required: true,
+    trim: true
   },
   completed: {
     type: Boolean,
+    default: false,
   }
 });
 
 const task = new Task({
-  description: 'Learn mongoose',
-  completed: false
+  description: ' Learn mongoose ',
 });
 
-// task
-//   .save()
-//   .then(() => console.log(task))
-//   .catch(error => console.log(error));
+task
+  .save()
+  .then(() => console.log(task))
+  .catch(error => console.log(error));
