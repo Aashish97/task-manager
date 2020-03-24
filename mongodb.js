@@ -61,4 +61,33 @@ MongoClient.connect(connectionURL, { useNewUrlParser: true }, { useUnifiedTopolo
         }
         console.log(count);
     });
+
+    //updating single documents on the basis of id
+    db.collection('users').updateOne(
+        {
+            _id: new ObjectID('5e799394bc780a314cb4027c')
+        },
+        {
+            $set : {
+                name: 'Susan'
+            },
+            $inc: {
+                age: 1
+            }
+        }
+    ).then((result) => console.log(result))
+    .catch((error) => console.log(error));
+
+    //upadating many documents of the databases
+    db.collection('tasks').updateMany(
+        {
+            completed: false
+        },
+        {
+            $set: {
+                completed: true
+            }
+        }
+    ).then((result) => console.log(result.modifiedCount))
+    .catch((error) => console.log(error));
 })
