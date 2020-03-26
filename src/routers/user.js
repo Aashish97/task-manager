@@ -56,22 +56,6 @@ router.get('/users/me', auth, async (req, res) => {
     res.send(req.user);
 });
 
-// :id provides the dynamic content that the users will provide as user_id
-router.get('/users/:id', async (req, res) => {
-    const _id = req.params.id;
-
-    try{
-        const user = await User.findById(_id);
-        if (!user) {
-            return res.status(404).send();
-        }
-        
-        res.send(user)
-    }catch{
-        res.status(500).send();
-    }
-})
-
 // Updating the users with given id
 router.patch('/users/:id', async (req, res) => {
     const updates = Object.keys(req.body);
