@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
+const Task = require('./task');
 
 const bcrypt = require('bcryptjs');
 
@@ -49,6 +50,17 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
+// Hiding the private data
+userSchema.methods.toJSON = function() {
+    const user = this;
+    const userObject = user.toObject();
+
+    delete userObject.password;
+    delete userObject.tokens;
+
+    return userObject;
+}
+
 //for the jwt authentication token which defines the methods
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
@@ -85,6 +97,14 @@ userSchema.pre('save', async function(next){
         user.password = await bcrypt.hash(user.password, 8)
     }
 
+    next();
+})
+
+//Middleware that deletes all tasks when user is deleted
+userSchema.pre('remove', async function(next){
+    const user = this;
+
+    await Task.deleteMany({ owner: user._id });
     next();
 })
 
