@@ -115,6 +115,31 @@ test("Should upload avatar image", async () => {
     .attach("avatar", "./tests/fixtures/profile-pic.jpg")
     .expect(200);
 
+    // Assertion that  image buffer has changed
+  const user = await User.findById(userOneId);
+  expect(user.avatar).toEqual(expect.any(Buffer));
+});
+
+test("Should update valid user fields", async () => {
+  await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      name: "Dorna"
+    })
+    .expect(200);
+
+    //Assertion that the value has changed
     const user = await User.findById(userOneId);
-    expect(user.avatar).toEqual(expect.any(Buffer));
+    expect(user.name).toEqual("Dorna");
+});
+
+test("Should not update invalid user fields", async () => {
+    await request(app)
+    .patch("/users/me")
+    .set("Authorization", `Bearer ${userOne.tokens[0].token}`)
+    .send({
+      other: "Lalitpur"
+    })
+    .expect(400);
 });
